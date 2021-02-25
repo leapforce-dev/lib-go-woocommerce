@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 
 	errortools "github.com/leapforce-libraries/go_errortools"
@@ -11,8 +12,9 @@ import (
 )
 
 const (
-	APIPath    string = "wp-json/wc/v2"
-	DateFormat string = "2006-01-02T15:04:05Z"
+	APIPath          string = "wp-json/wc/v2"
+	DateFormat       string = "2006-01-02T15:04:05"
+	TotalPagesHeader string = "X-WP-TotalPages"
 )
 
 // type
@@ -96,4 +98,17 @@ func UIntArrayToString(unints []uint) string {
 	}
 
 	return strings.Join(ids, ",")
+}
+
+func TotalPages(response *http.Response) (int, *errortools.Error) {
+	if response == nil {
+		return 0, nil
+	}
+
+	totalPages, err := strconv.Atoi(response.Header.Get(TotalPagesHeader))
+	if err != nil {
+		return 0, errortools.ErrorMessage(fmt.Sprintf("Error while retrieving %s header (%s)", TotalPagesHeader, err.Error()))
+	}
+
+	return totalPages, nil
 }

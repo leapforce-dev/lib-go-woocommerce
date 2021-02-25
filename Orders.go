@@ -12,7 +12,8 @@ import (
 // Order stores Order from Service
 //
 type Order struct {
-	ID int `json:"id"`
+	ID          int    `json:"id"`
+	DateCreated string `json:"date_created"`
 }
 
 type GetOrdersContext string
@@ -77,76 +78,94 @@ type GetOrdersConfig struct {
 //
 func (service *Service) GetOrders(filter *GetOrdersConfig) (*[]Order, *errortools.Error) {
 	values := url.Values{}
-	path := "orders"
+	endpoint := "orders"
 
 	if filter != nil {
 		if filter.Context != nil {
-			values.Add("context", string(*filter.Context))
-		}
-		if filter.Page != nil {
-			values.Add("page", fmt.Sprintf("%v", *filter.Page))
+			values.Set("context", string(*filter.Context))
 		}
 		if filter.PerPage != nil {
-			values.Add("per_page", fmt.Sprintf("%v", *filter.PerPage))
+			values.Set("per_page", fmt.Sprintf("%v", *filter.PerPage))
 		}
 		if filter.Search != nil {
-			values.Add("search", string(*filter.Search))
+			values.Set("search", string(*filter.Search))
 		}
 		if filter.After != nil {
-			values.Add("after", filter.After.Format(DateFormat))
+			values.Set("after", filter.After.Format(DateFormat))
 		}
 		if filter.Before != nil {
-			values.Add("before", filter.Before.Format(DateFormat))
+			values.Set("before", filter.Before.Format(DateFormat))
 		}
 		if filter.Exclude != nil {
-			values.Add("exclude", UIntArrayToString(*filter.Exclude))
+			values.Set("exclude", UIntArrayToString(*filter.Exclude))
 		}
 		if filter.Include != nil {
-			values.Add("include", UIntArrayToString(*filter.Include))
+			values.Set("include", UIntArrayToString(*filter.Include))
 		}
 		if filter.Offset != nil {
-			values.Add("offset", fmt.Sprintf("%v", *filter.Offset))
+			values.Set("offset", fmt.Sprintf("%v", *filter.Offset))
 		}
 		if filter.Order != nil {
-			values.Add("order", string(*filter.Order))
+			values.Set("order", string(*filter.Order))
 		}
 		if filter.OrderBy != nil {
-			values.Add("orderby", string(*filter.OrderBy))
+			values.Set("orderby", string(*filter.OrderBy))
 		}
 		if filter.Parent != nil {
-			values.Add("parent", UIntArrayToString(*filter.Parent))
+			values.Set("parent", UIntArrayToString(*filter.Parent))
 		}
 		if filter.ParentExclude != nil {
-			values.Add("parent_exclude", UIntArrayToString(*filter.ParentExclude))
+			values.Set("parent_exclude", UIntArrayToString(*filter.ParentExclude))
 		}
 		if filter.Status != nil {
-			values.Add("status", string(*filter.Status))
+			values.Set("status", string(*filter.Status))
 		}
 		if filter.Customer != nil {
-			values.Add("customer", fmt.Sprintf("%v", *filter.Customer))
+			values.Set("customer", fmt.Sprintf("%v", *filter.Customer))
 		}
 		if filter.Product != nil {
-			values.Add("product", fmt.Sprintf("%v", *filter.Product))
+			values.Set("product", fmt.Sprintf("%v", *filter.Product))
 		}
 		if filter.DecimalPositions != nil {
-			values.Add("dp", fmt.Sprintf("%v", *filter.DecimalPositions))
+			values.Set("dp", fmt.Sprintf("%v", *filter.DecimalPositions))
 		}
 	}
 
-	if len(values) > 0 {
-		path = fmt.Sprintf("%s?%s", path, values.Encode())
+	page := 1
+	maxPage := page
+	if filter.Page != nil {
+		page = int(*filter.Page)
 	}
 
 	orders := []Order{}
 
-	requestConfig := go_http.RequestConfig{
-		URL:           service.url(path),
-		ResponseModel: &orders,
-	}
-	fmt.Println(service.url(path))
-	_, _, e := service.get(&requestConfig)
-	if e != nil {
-		return nil, e
+	for page <= maxPage {
+		values.Set("page", fmt.Sprintf("%v", page))
+
+		path := fmt.Sprintf("%s?%s", endpoint, values.Encode())
+
+		_orders := []Order{}
+
+		requestConfig := go_http.RequestConfig{
+			URL:           service.url(path),
+			ResponseModel: &_orders,
+		}
+		fmt.Println(service.url(path))
+		_, response, e := service.get(&requestConfig)
+		if e != nil {
+			return nil, e
+		}
+
+		orders = append(orders, _orders...)
+
+		if filter.Page == nil {
+			maxPage, e = TotalPages(response)
+			if e != nil {
+				return nil, e
+			}
+		}
+
+		page++
 	}
 
 	return &orders, nil
