@@ -1,8 +1,10 @@
 package woocommerce
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/url"
+	"strings"
 	"time"
 
 	errortools "github.com/leapforce-libraries/go_errortools"
@@ -12,8 +14,175 @@ import (
 // Order stores Order from Service
 //
 type Order struct {
-	ID          int    `json:"id"`
-	DateCreated string `json:"date_created"`
+	ID                 int                  `json:"id"`
+	ParentID           int                  `json:"parent_id"`
+	Number             string               `json:"number"`
+	OrderKey           string               `json:"order_key"`
+	CreatedVia         string               `json:"created_via"`
+	Version            string               `json:"version"`
+	Status             string               `json:"status"`
+	Currency           string               `json:"currency"`
+	CurrencySymbol     string               `json:"currency_symbol"`
+	DateCreated        string               `json:"date_created"`
+	DateCreatedGMT     string               `json:"date_created_gmt"`
+	DateModified       string               `json:"date_modified"`
+	DateModifiedGMT    string               `json:"date_modified_gmt"`
+	DiscountTotal      string               `json:"discount_total"`
+	DiscountTax        string               `json:"discount_tax"`
+	ShippingTotal      string               `json:"shipping_total"`
+	ShippingTax        string               `json:"shipping_tax"`
+	CartTax            string               `json:"cart_tax"`
+	Total              string               `json:"total"`
+	TotalTax           string               `json:"total_tax"`
+	PricesIncludeTax   bool                 `json:"prices_include_tax"`
+	CustomerID         int                  `json:"customer_id"`
+	CustomerIPAddress  string               `json:"customer_ip_address"`
+	CustomerUserAgent  string               `json:"customer_user_agent"`
+	CustomerNote       string               `json:"customer_note"`
+	Billing            *OrderBilling        `json:"billing"`
+	Shipping           *OrderShipping       `json:"shipping"`
+	PaymentMethod      string               `json:"payment_method"`
+	PaymentMethodTitle string               `json:"payment_method_title"`
+	TransactionID      string               `json:"transaction_id"`
+	DatePaid           string               `json:"date_paid"`
+	DatePaidGMT        string               `json:"date_paid_gmt"`
+	DateCompleted      string               `json:"date_completed"`
+	DateCompletedGMT   string               `json:"date_completed_gmt"`
+	CartHash           string               `json:"cart_hash"`
+	MetaData           []*OrderMetaData     `json:"meta_data"`
+	LineItems          []*OrderLineItem     `json:"line_items"`
+	TaxLines           []*OrderTaxLine      `json:"tax_lines"`
+	ShippingLines      []*OrderShippingLine `json:"shipping_lines"`
+	FeeLines           []*OrderFeeLine      `json:"fee_lines"`
+	CouponLines        []*OrderCouponLine   `json:"coupon_lines"`
+	Refunds            []*OrderRefund       `json:"refunds"`
+	SetPaid            bool                 `json:"set_paid"`
+}
+
+type OrderBilling struct {
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Company   string `json:"company"`
+	Address1  string `json:"address_1"`
+	Address2  string `json:"address_2"`
+	City      string `json:"city"`
+	State     string `json:"state"`
+	Postcode  string `json:"postcode"`
+	Country   string `json:"country"`
+	Email     string `json:"email"`
+	Phone     string `json:"phone"`
+}
+
+type OrderShipping struct {
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Company   string `json:"company"`
+	Address1  string `json:"address_1"`
+	Address2  string `json:"address_2"`
+	City      string `json:"city"`
+	State     string `json:"state"`
+	Postcode  string `json:"postcode"`
+	Country   string `json:"country"`
+}
+
+type OrderMetaData struct {
+	ID    int    `json:"id"`
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
+type OrderMetaDataJSON struct {
+	ID    int             `json:"id"`
+	Key   string          `json:"key"`
+	Value json.RawMessage `json:"value"`
+}
+
+func (p *OrderMetaData) UnmarshalJSON(data []byte) error {
+	var res OrderMetaDataJSON
+
+	if err := json.Unmarshal(data, &res); err != nil {
+		return err
+	}
+
+	p.ID = res.ID
+	p.Key = res.Key
+	p.Value = strings.Trim(string(res.Value), `"`)
+
+	return nil
+}
+
+type OrderLineItem struct {
+	ID          int              `json:"id"`
+	Name        string           `json:"name"`
+	ProductID   int              `json:"product_id"`
+	VariationID int              `json:"variation_id"`
+	Quantity    int              `json:"quantity"`
+	TaxClass    string           `json:"tax_class"`
+	Subtotal    string           `json:"subtotal"`
+	SubtotalTax string           `json:"subtotal_tax"`
+	Total       string           `json:"total"`
+	TotalTax    string           `json:"total_tax"`
+	Taxes       []*OrderTax      `json:"taxes"`
+	MetaData    []*OrderMetaData `json:"meta_data"`
+	SKU         string           `json:"sku"`
+	Price       float64          `json:"price"`
+}
+
+type OrderTax struct {
+	ID               int              `json:"id"`
+	RateCode         string           `json:"rate_code"`
+	RateID           string           `json:"rate_id"`
+	Label            string           `json:"label"`
+	Compound         bool             `json:"compound"`
+	TaxTotal         string           `json:"tax_total"`
+	ShippingTaxTotal string           `json:"shipping_tax_total"`
+	MetaData         []*OrderMetaData `json:"meta_data"`
+}
+
+type OrderTaxLine struct {
+	ID               int              `json:"id"`
+	RateCode         string           `json:"rate_code"`
+	RateID           string           `json:"rate_id"`
+	Label            string           `json:"label"`
+	Compound         bool             `json:"compound"`
+	TaxTotal         string           `json:"tax_total"`
+	ShippingTaxTotal string           `json:"shipping_tax_total"`
+	MetaData         []*OrderMetaData `json:"meta_data"`
+}
+
+type OrderShippingLine struct {
+	ID          int              `json:"id"`
+	MethodTitle string           `json:"method_title"`
+	MethodID    string           `json:"method_id"`
+	Total       string           `json:"total"`
+	TotalTax    string           `json:"total_tax"`
+	Taxes       []*OrderTax      `json:"taxes"`
+	MetaData    []*OrderMetaData `json:"meta_data"`
+}
+
+type OrderFeeLine struct {
+	ID        int              `json:"id"`
+	Name      string           `json:"name"`
+	TaxClass  string           `json:"tax_class"`
+	TaxStatus string           `json:"tax_status"`
+	Total     string           `json:"total"`
+	TotalTax  string           `json:"total_tax"`
+	Taxes     []*OrderTax      `json:"taxes"`
+	MetaData  []*OrderMetaData `json:"meta_data"`
+}
+
+type OrderCouponLine struct {
+	ID          int              `json:"id"`
+	Code        string           `json:"code"`
+	Discount    string           `json:"discount"`
+	DiscountTax string           `json:"discount_tax"`
+	MetaData    []*OrderMetaData `json:"meta_data"`
+}
+
+type OrderRefund struct {
+	ID     int    `json:"id"`
+	Reason string `json:"reason"`
+	Total  string `json:"total"`
 }
 
 type GetOrdersContext string
@@ -150,7 +319,7 @@ func (service *Service) GetOrders(filter *GetOrdersConfig) (*[]Order, *errortool
 			URL:           service.url(path),
 			ResponseModel: &_orders,
 		}
-		fmt.Println(service.url(path))
+
 		_, response, e := service.get(&requestConfig)
 		if e != nil {
 			return nil, e
