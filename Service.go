@@ -20,20 +20,24 @@ const (
 // type
 //
 type Service struct {
-	domain      string
+	host        string
 	token       string
 	httpService *go_http.Service
 }
 
 type ServiceConfig struct {
-	Domain         string
+	Host           string
 	ConsumerKey    string
 	ConsumerSecret string
 }
 
-func NewService(config ServiceConfig) (*Service, *errortools.Error) {
-	if config.Domain == "" {
-		return nil, errortools.ErrorMessage("Domain not provided")
+func NewService(config *ServiceConfig) (*Service, *errortools.Error) {
+	if config == nil {
+		return nil, errortools.ErrorMessage("ServiceConfig must not be a nil pointer")
+	}
+
+	if config.Host == "" {
+		return nil, errortools.ErrorMessage("Host not provided")
 	}
 
 	if config.ConsumerKey == "" {
@@ -44,12 +48,15 @@ func NewService(config ServiceConfig) (*Service, *errortools.Error) {
 		return nil, errortools.ErrorMessage("ConsumerSecret not provided")
 	}
 
-	httpServiceConfig := go_http.ServiceConfig{}
+	httpService, e := go_http.NewService(&go_http.ServiceConfig{})
+	if e != nil {
+		return nil, e
+	}
 
 	return &Service{
-		domain:      config.Domain,
+		host:        config.Host,
 		token:       base64.URLEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", config.ConsumerKey, config.ConsumerSecret))),
-		httpService: go_http.NewService(httpServiceConfig),
+		httpService: httpService,
 	}, nil
 }
 
@@ -72,7 +79,7 @@ func (service *Service) httpRequest(httpMethod string, requestConfig *go_http.Re
 }
 
 func (service *Service) url(path string) string {
-	return fmt.Sprintf("%s/%s/%s", service.domain, APIPath, path)
+	return fmt.Sprintf("%s/%s/%s", service.host, APIPath, path)
 }
 
 func (service *Service) get(requestConfig *go_http.RequestConfig) (*http.Request, *http.Response, *errortools.Error) {
