@@ -9,54 +9,56 @@ import (
 
 	errortools "github.com/leapforce-libraries/go_errortools"
 	go_http "github.com/leapforce-libraries/go_http"
+	go_types "github.com/leapforce-libraries/go_types"
+	w_types "github.com/leapforce-libraries/go_woocommerce/types"
 )
 
 // Order stores Order from Service
 //
 type Order struct {
-	ID                 int                  `json:"id"`
-	ParentID           int                  `json:"parent_id"`
-	Number             string               `json:"number"`
-	OrderKey           string               `json:"order_key"`
-	CreatedVia         string               `json:"created_via"`
-	Version            string               `json:"version"`
-	Status             string               `json:"status"`
-	Currency           string               `json:"currency"`
-	CurrencySymbol     string               `json:"currency_symbol"`
-	DateCreated        string               `json:"date_created"`
-	DateCreatedGMT     string               `json:"date_created_gmt"`
-	DateModified       string               `json:"date_modified"`
-	DateModifiedGMT    string               `json:"date_modified_gmt"`
-	DiscountTotal      string               `json:"discount_total"`
-	DiscountTax        string               `json:"discount_tax"`
-	ShippingTotal      string               `json:"shipping_total"`
-	ShippingTax        string               `json:"shipping_tax"`
-	CartTax            string               `json:"cart_tax"`
-	Total              string               `json:"total"`
-	TotalTax           string               `json:"total_tax"`
-	PricesIncludeTax   bool                 `json:"prices_include_tax"`
-	CustomerID         int                  `json:"customer_id"`
-	CustomerIPAddress  string               `json:"customer_ip_address"`
-	CustomerUserAgent  string               `json:"customer_user_agent"`
-	CustomerNote       string               `json:"customer_note"`
-	Billing            *OrderBilling        `json:"billing"`
-	Shipping           *OrderShipping       `json:"shipping"`
-	PaymentMethod      string               `json:"payment_method"`
-	PaymentMethodTitle string               `json:"payment_method_title"`
-	TransactionID      string               `json:"transaction_id"`
-	DatePaid           string               `json:"date_paid"`
-	DatePaidGMT        string               `json:"date_paid_gmt"`
-	DateCompleted      string               `json:"date_completed"`
-	DateCompletedGMT   string               `json:"date_completed_gmt"`
-	CartHash           string               `json:"cart_hash"`
-	MetaData           []*OrderMetaData     `json:"meta_data"`
-	LineItems          []*OrderLineItem     `json:"line_items"`
-	TaxLines           []*OrderTaxLine      `json:"tax_lines"`
-	ShippingLines      []*OrderShippingLine `json:"shipping_lines"`
-	FeeLines           []*OrderFeeLine      `json:"fee_lines"`
-	CouponLines        []*OrderCouponLine   `json:"coupon_lines"`
-	Refunds            []*OrderRefund       `json:"refunds"`
-	SetPaid            bool                 `json:"set_paid"`
+	ID                 int                     `json:"id"`
+	ParentID           int                     `json:"parent_id"`
+	Number             string                  `json:"number"`
+	OrderKey           string                  `json:"order_key"`
+	CreatedVia         string                  `json:"created_via"`
+	Version            string                  `json:"version"`
+	Status             string                  `json:"status"`
+	Currency           string                  `json:"currency"`
+	CurrencySymbol     string                  `json:"currency_symbol"`
+	DateCreated        w_types.DateTimeString  `json:"date_created"`
+	DateCreatedGMT     w_types.DateTimeString  `json:"date_created_gmt"`
+	DateModified       w_types.DateTimeString  `json:"date_modified"`
+	DateModifiedGMT    w_types.DateTimeString  `json:"date_modified_gmt"`
+	DiscountTotal      go_types.Float64String  `json:"discount_total"`
+	DiscountTax        go_types.Float64String  `json:"discount_tax"`
+	ShippingTotal      go_types.Float64String  `json:"shipping_total"`
+	ShippingTax        go_types.Float64String  `json:"shipping_tax"`
+	CartTax            go_types.Float64String  `json:"cart_tax"`
+	Total              go_types.Float64String  `json:"total"`
+	TotalTax           go_types.Float64String  `json:"total_tax"`
+	PricesIncludeTax   bool                    `json:"prices_include_tax"`
+	CustomerID         int                     `json:"customer_id"`
+	CustomerIPAddress  string                  `json:"customer_ip_address"`
+	CustomerUserAgent  string                  `json:"customer_user_agent"`
+	CustomerNote       string                  `json:"customer_note"`
+	Billing            *OrderBilling           `json:"billing"`
+	Shipping           *OrderShipping          `json:"shipping"`
+	PaymentMethod      string                  `json:"payment_method"`
+	PaymentMethodTitle string                  `json:"payment_method_title"`
+	TransactionID      string                  `json:"transaction_id"`
+	DatePaid           *w_types.DateTimeString `json:"date_paid"`
+	DatePaidGMT        *w_types.DateTimeString `json:"date_paid_gmt"`
+	DateCompleted      *w_types.DateTimeString `json:"date_completed"`
+	DateCompletedGMT   *w_types.DateTimeString `json:"date_completed_gmt"`
+	CartHash           string                  `json:"cart_hash"`
+	MetaData           []*OrderMetaData        `json:"meta_data"`
+	LineItems          []*OrderLineItem        `json:"line_items"`
+	TaxLines           []*OrderTaxLine         `json:"tax_lines"`
+	ShippingLines      []*OrderShippingLine    `json:"shipping_lines"`
+	FeeLines           []*OrderFeeLine         `json:"fee_lines"`
+	CouponLines        []*OrderCouponLine      `json:"coupon_lines"`
+	Refunds            []*OrderRefund          `json:"refunds"`
+	SetPaid            bool                    `json:"set_paid"`
 }
 
 type OrderBilling struct {
