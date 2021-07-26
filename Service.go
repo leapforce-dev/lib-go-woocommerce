@@ -14,8 +14,8 @@ import (
 const (
 	apiName          string = "WooCommerce"
 	apiPath          string = "wp-json/wc/v2"
-	dateFormat       string = "2006-01-02T15:04:05"
 	totalPagesHeader string = "X-WP-TotalPages"
+	DateFormat       string = "2006-01-02T15:04:05"
 )
 
 // type
