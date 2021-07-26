@@ -262,10 +262,10 @@ func (service *Service) GetOrders(filter *GetOrdersConfig) (*[]Order, *errortool
 			values.Set("search", string(*filter.Search))
 		}
 		if filter.After != nil {
-			values.Set("after", filter.After.Format(DateFormat))
+			values.Set("after", filter.After.Format(dateFormat))
 		}
 		if filter.Before != nil {
-			values.Set("before", filter.Before.Format(DateFormat))
+			values.Set("before", filter.Before.Format(dateFormat))
 		}
 		if filter.Exclude != nil {
 			values.Set("exclude", UIntArrayToString(*filter.Exclude))

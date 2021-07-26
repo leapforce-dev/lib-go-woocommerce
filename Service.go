@@ -12,9 +12,10 @@ import (
 )
 
 const (
-	APIPath          string = "wp-json/wc/v2"
-	DateFormat       string = "2006-01-02T15:04:05"
-	TotalPagesHeader string = "X-WP-TotalPages"
+	apiName          string = "WooCommerce"
+	apiPath          string = "wp-json/wc/v2"
+	dateFormat       string = "2006-01-02T15:04:05"
+	totalPagesHeader string = "X-WP-TotalPages"
 )
 
 // type
@@ -79,7 +80,7 @@ func (service *Service) httpRequest(httpMethod string, requestConfig *go_http.Re
 }
 
 func (service *Service) url(path string) string {
-	return fmt.Sprintf("%s/%s/%s", service.host, APIPath, path)
+	return fmt.Sprintf("%s/%s/%s", service.host, apiPath, path)
 }
 
 func (service *Service) get(requestConfig *go_http.RequestConfig) (*http.Request, *http.Response, *errortools.Error) {
@@ -98,6 +99,22 @@ func (service *Service) delete(requestConfig *go_http.RequestConfig) (*http.Requ
 	return service.httpRequest(http.MethodDelete, requestConfig)
 }
 
+func (service *Service) APIName() string {
+	return apiName
+}
+
+func (service *Service) APIKey() string {
+	return service.token
+}
+
+func (service *Service) APICallCount() int64 {
+	return service.httpService.RequestCount()
+}
+
+func (service *Service) APIReset() {
+	service.httpService.ResetRequestCount()
+}
+
 func UIntArrayToString(unints []uint) string {
 	ids := []string{}
 	for _, include := range unints {
@@ -112,9 +129,9 @@ func TotalPages(response *http.Response) (int, *errortools.Error) {
 		return 0, nil
 	}
 
-	totalPages, err := strconv.Atoi(response.Header.Get(TotalPagesHeader))
+	totalPages, err := strconv.Atoi(response.Header.Get(totalPagesHeader))
 	if err != nil {
-		return 0, errortools.ErrorMessage(fmt.Sprintf("Error while retrieving %s header (%s)", TotalPagesHeader, err.Error()))
+		return 0, errortools.ErrorMessage(fmt.Sprintf("Error while retrieving %s header (%s)", totalPagesHeader, err.Error()))
 	}
 
 	return totalPages, nil
