@@ -3,6 +3,7 @@ package woocommerce
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strings"
 	"time"
@@ -318,11 +319,12 @@ func (service *Service) GetOrders(filter *GetOrdersConfig) (*[]Order, *errortool
 		_orders := []Order{}
 
 		requestConfig := go_http.RequestConfig{
+			Method:        http.MethodGet,
 			URL:           service.url(path),
 			ResponseModel: &_orders,
 		}
 
-		_, response, e := service.get(&requestConfig)
+		_, response, e := service.httpRequest(&requestConfig)
 		if e != nil {
 			return nil, e
 		}
