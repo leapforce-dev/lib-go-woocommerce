@@ -248,65 +248,65 @@ type GetOrdersConfig struct {
 
 // GetOrders returns all orders
 //
-func (service *Service) GetOrders(filter *GetOrdersConfig) (*[]Order, *errortools.Error) {
+func (service *Service) GetOrders(config *GetOrdersConfig) (*[]Order, *errortools.Error) {
 	values := url.Values{}
 	endpoint := "orders"
 
-	if filter != nil {
-		if filter.Context != nil {
-			values.Set("context", string(*filter.Context))
+	if config != nil {
+		if config.Context != nil {
+			values.Set("context", string(*config.Context))
 		}
-		if filter.PerPage != nil {
-			values.Set("per_page", fmt.Sprintf("%v", *filter.PerPage))
+		if config.PerPage != nil {
+			values.Set("per_page", fmt.Sprintf("%v", *config.PerPage))
 		}
-		if filter.Search != nil {
-			values.Set("search", string(*filter.Search))
+		if config.Search != nil {
+			values.Set("search", string(*config.Search))
 		}
-		if filter.After != nil {
-			values.Set("after", filter.After.Format(DateFormat))
+		if config.After != nil {
+			values.Set("after", config.After.Format(DateFormat))
 		}
-		if filter.Before != nil {
-			values.Set("before", filter.Before.Format(DateFormat))
+		if config.Before != nil {
+			values.Set("before", config.Before.Format(DateFormat))
 		}
-		if filter.Exclude != nil {
-			values.Set("exclude", UIntArrayToString(*filter.Exclude))
+		if config.Exclude != nil {
+			values.Set("exclude", UIntArrayToString(*config.Exclude))
 		}
-		if filter.Include != nil {
-			values.Set("include", UIntArrayToString(*filter.Include))
+		if config.Include != nil {
+			values.Set("include", UIntArrayToString(*config.Include))
 		}
-		if filter.Offset != nil {
-			values.Set("offset", fmt.Sprintf("%v", *filter.Offset))
+		if config.Offset != nil {
+			values.Set("offset", fmt.Sprintf("%v", *config.Offset))
 		}
-		if filter.Order != nil {
-			values.Set("order", string(*filter.Order))
+		if config.Order != nil {
+			values.Set("order", string(*config.Order))
 		}
-		if filter.OrderBy != nil {
-			values.Set("orderby", string(*filter.OrderBy))
+		if config.OrderBy != nil {
+			values.Set("orderby", string(*config.OrderBy))
 		}
-		if filter.Parent != nil {
-			values.Set("parent", UIntArrayToString(*filter.Parent))
+		if config.Parent != nil {
+			values.Set("parent", UIntArrayToString(*config.Parent))
 		}
-		if filter.ParentExclude != nil {
-			values.Set("parent_exclude", UIntArrayToString(*filter.ParentExclude))
+		if config.ParentExclude != nil {
+			values.Set("parent_exclude", UIntArrayToString(*config.ParentExclude))
 		}
-		if filter.Status != nil {
-			values.Set("status", string(*filter.Status))
+		if config.Status != nil {
+			values.Set("status", string(*config.Status))
 		}
-		if filter.Customer != nil {
-			values.Set("customer", fmt.Sprintf("%v", *filter.Customer))
+		if config.Customer != nil {
+			values.Set("customer", fmt.Sprintf("%v", *config.Customer))
 		}
-		if filter.Product != nil {
-			values.Set("product", fmt.Sprintf("%v", *filter.Product))
+		if config.Product != nil {
+			values.Set("product", fmt.Sprintf("%v", *config.Product))
 		}
-		if filter.DecimalPositions != nil {
-			values.Set("dp", fmt.Sprintf("%v", *filter.DecimalPositions))
+		if config.DecimalPositions != nil {
+			values.Set("dp", fmt.Sprintf("%v", *config.DecimalPositions))
 		}
 	}
 
 	page := 1
 	maxPage := page
-	if filter.Page != nil {
-		page = int(*filter.Page)
+	if config.Page != nil {
+		page = int(*config.Page)
 	}
 
 	orders := []Order{}
@@ -331,7 +331,7 @@ func (service *Service) GetOrders(filter *GetOrdersConfig) (*[]Order, *errortool
 
 		orders = append(orders, _orders...)
 
-		if filter.Page == nil {
+		if config.Page == nil {
 			maxPage, e = TotalPages(response)
 			if e != nil {
 				return nil, e
@@ -342,4 +342,28 @@ func (service *Service) GetOrders(filter *GetOrdersConfig) (*[]Order, *errortool
 	}
 
 	return &orders, nil
+}
+
+// UpdateOrder updates all orders
+//
+func (service *Service) UpdateOrder(order *Order) (*Order, *errortools.Error) {
+	if order == nil {
+		return nil, errortools.ErrorMessage("Order is a nil pointer")
+	}
+
+	updatedOrder := Order{}
+
+	requestConfig := go_http.RequestConfig{
+		Method:        http.MethodPut,
+		URL:           service.url(fmt.Sprintf("orders/%v", order.ID)),
+		BodyModel:     order,
+		ResponseModel: &updatedOrder,
+	}
+
+	_, _, e := service.httpRequest(&requestConfig)
+	if e != nil {
+		return nil, e
+	}
+
+	return &updatedOrder, nil
 }
