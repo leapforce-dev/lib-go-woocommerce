@@ -17,8 +17,8 @@ import (
 // Order stores Order from Service
 //
 type Order struct {
-	ID                 int                     `json:"id"`
-	ParentID           int                     `json:"parent_id"`
+	Id                 int                     `json:"id"`
+	ParentId           int                     `json:"parent_id"`
 	Number             string                  `json:"number"`
 	OrderKey           string                  `json:"order_key"`
 	CreatedVia         string                  `json:"created_via"`
@@ -27,9 +27,9 @@ type Order struct {
 	Currency           string                  `json:"currency"`
 	CurrencySymbol     string                  `json:"currency_symbol"`
 	DateCreated        w_types.DateTimeString  `json:"date_created"`
-	DateCreatedGMT     w_types.DateTimeString  `json:"date_created_gmt"`
+	DateCreatedGmt     w_types.DateTimeString  `json:"date_created_gmt"`
 	DateModified       w_types.DateTimeString  `json:"date_modified"`
-	DateModifiedGMT    w_types.DateTimeString  `json:"date_modified_gmt"`
+	DateModifiedGmt    w_types.DateTimeString  `json:"date_modified_gmt"`
 	DiscountTotal      go_types.Float64String  `json:"discount_total"`
 	DiscountTax        go_types.Float64String  `json:"discount_tax"`
 	ShippingTotal      go_types.Float64String  `json:"shipping_total"`
@@ -38,27 +38,27 @@ type Order struct {
 	Total              go_types.Float64String  `json:"total"`
 	TotalTax           go_types.Float64String  `json:"total_tax"`
 	PricesIncludeTax   bool                    `json:"prices_include_tax"`
-	CustomerID         int                     `json:"customer_id"`
-	CustomerIPAddress  string                  `json:"customer_ip_address"`
+	CustomerId         int                     `json:"customer_id"`
+	CustomerIpAddress  string                  `json:"customer_ip_address"`
 	CustomerUserAgent  string                  `json:"customer_user_agent"`
 	CustomerNote       string                  `json:"customer_note"`
-	Billing            *OrderBilling           `json:"billing"`
-	Shipping           *OrderShipping          `json:"shipping"`
+	Billing            OrderBilling            `json:"billing"`
+	Shipping           OrderShipping           `json:"shipping"`
 	PaymentMethod      string                  `json:"payment_method"`
 	PaymentMethodTitle string                  `json:"payment_method_title"`
-	TransactionID      string                  `json:"transaction_id"`
+	TransactionId      string                  `json:"transaction_id"`
 	DatePaid           *w_types.DateTimeString `json:"date_paid"`
-	DatePaidGMT        *w_types.DateTimeString `json:"date_paid_gmt"`
+	DatePaidGmt        *w_types.DateTimeString `json:"date_paid_gmt"`
 	DateCompleted      *w_types.DateTimeString `json:"date_completed"`
-	DateCompletedGMT   *w_types.DateTimeString `json:"date_completed_gmt"`
+	DateCompletedGmt   *w_types.DateTimeString `json:"date_completed_gmt"`
 	CartHash           string                  `json:"cart_hash"`
-	MetaData           []*OrderMetaData        `json:"meta_data"`
-	LineItems          []*OrderLineItem        `json:"line_items"`
-	TaxLines           []*OrderTaxLine         `json:"tax_lines"`
-	ShippingLines      []*OrderShippingLine    `json:"shipping_lines"`
-	FeeLines           []*OrderFeeLine         `json:"fee_lines"`
-	CouponLines        []*OrderCouponLine      `json:"coupon_lines"`
-	Refunds            []*OrderRefund          `json:"refunds"`
+	MetaData           []OrderMetaData         `json:"meta_data"`
+	LineItems          []OrderLineItem         `json:"line_items"`
+	TaxLines           []OrderTaxLine          `json:"tax_lines"`
+	ShippingLines      []OrderShippingLine     `json:"shipping_lines"`
+	FeeLines           []OrderFeeLine          `json:"fee_lines"`
+	CouponLines        []OrderCouponLine       `json:"coupon_lines"`
+	Refunds            []OrderRefund           `json:"refunds"`
 	SetPaid            bool                    `json:"set_paid"`
 }
 
@@ -89,13 +89,13 @@ type OrderShipping struct {
 }
 
 type OrderMetaData struct {
-	ID    int    `json:"id"`
+	Id    int    `json:"id"`
 	Key   string `json:"key"`
 	Value string `json:"value"`
 }
 
 type OrderMetaDataJSON struct {
-	ID    int             `json:"id"`
+	Id    int             `json:"id"`
 	Key   string          `json:"key"`
 	Value json.RawMessage `json:"value"`
 }
@@ -107,7 +107,7 @@ func (p *OrderMetaData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	p.ID = res.ID
+	p.Id = res.Id
 	p.Key = res.Key
 	p.Value = strings.Trim(string(res.Value), `"`)
 
@@ -115,10 +115,10 @@ func (p *OrderMetaData) UnmarshalJSON(data []byte) error {
 }
 
 type OrderLineItem struct {
-	ID          int              `json:"id"`
+	Id          int              `json:"id"`
 	Name        string           `json:"name"`
-	ProductID   int              `json:"product_id"`
-	VariationID int              `json:"variation_id"`
+	ProductId   int              `json:"product_id"`
+	VariationId int              `json:"variation_id"`
 	Quantity    int              `json:"quantity"`
 	TaxClass    string           `json:"tax_class"`
 	Subtotal    string           `json:"subtotal"`
@@ -127,14 +127,14 @@ type OrderLineItem struct {
 	TotalTax    string           `json:"total_tax"`
 	Taxes       []*OrderTax      `json:"taxes"`
 	MetaData    []*OrderMetaData `json:"meta_data"`
-	SKU         string           `json:"sku"`
+	Sku         string           `json:"sku"`
 	Price       float64          `json:"price"`
 }
 
 type OrderTax struct {
-	ID               int              `json:"id"`
+	Id               int              `json:"id"`
 	RateCode         string           `json:"rate_code"`
-	RateID           string           `json:"rate_id"`
+	RateId           string           `json:"rate_id"`
 	Label            string           `json:"label"`
 	Compound         bool             `json:"compound"`
 	TaxTotal         string           `json:"tax_total"`
@@ -143,9 +143,9 @@ type OrderTax struct {
 }
 
 type OrderTaxLine struct {
-	ID               int              `json:"id"`
+	Id               int              `json:"id"`
 	RateCode         string           `json:"rate_code"`
-	RateID           string           `json:"rate_id"`
+	RateId           string           `json:"rate_id"`
 	Label            string           `json:"label"`
 	Compound         bool             `json:"compound"`
 	TaxTotal         string           `json:"tax_total"`
@@ -154,9 +154,9 @@ type OrderTaxLine struct {
 }
 
 type OrderShippingLine struct {
-	ID          int              `json:"id"`
+	Id          int              `json:"id"`
 	MethodTitle string           `json:"method_title"`
-	MethodID    string           `json:"method_id"`
+	MethodId    string           `json:"method_id"`
 	Total       string           `json:"total"`
 	TotalTax    string           `json:"total_tax"`
 	Taxes       []*OrderTax      `json:"taxes"`
@@ -164,7 +164,7 @@ type OrderShippingLine struct {
 }
 
 type OrderFeeLine struct {
-	ID        int              `json:"id"`
+	Id        int              `json:"id"`
 	Name      string           `json:"name"`
 	TaxClass  string           `json:"tax_class"`
 	TaxStatus string           `json:"tax_status"`
@@ -175,7 +175,7 @@ type OrderFeeLine struct {
 }
 
 type OrderCouponLine struct {
-	ID          int              `json:"id"`
+	Id          int              `json:"id"`
 	Code        string           `json:"code"`
 	Discount    string           `json:"discount"`
 	DiscountTax string           `json:"discount_tax"`
@@ -183,7 +183,7 @@ type OrderCouponLine struct {
 }
 
 type OrderRefund struct {
-	ID     int    `json:"id"`
+	Id     int    `json:"id"`
 	Reason string `json:"reason"`
 	Total  string `json:"total"`
 }
@@ -206,7 +206,7 @@ type GetOrdersOrderBy string
 
 const (
 	GetOrdersOrderByDate    GetOrdersOrderBy = "date"
-	GetOrdersOrderByID      GetOrdersOrderBy = "id"
+	GetOrdersOrderById      GetOrdersOrderBy = "id"
 	GetOrdersOrderByInclude GetOrdersOrderBy = "include"
 	GetOrdersOrderByTitle   GetOrdersOrderBy = "title"
 	GetOrdersOrderBySlug    GetOrdersOrderBy = "slug"
@@ -320,7 +320,7 @@ func (service *Service) GetOrders(config *GetOrdersConfig) (*[]Order, *errortool
 
 		requestConfig := go_http.RequestConfig{
 			Method:        http.MethodGet,
-			URL:           service.url(path),
+			Url:           service.url(path),
 			ResponseModel: &_orders,
 		}
 
@@ -355,7 +355,7 @@ func (service *Service) UpdateOrder(order *Order) (*Order, *errortools.Error) {
 
 	requestConfig := go_http.RequestConfig{
 		Method:        http.MethodPut,
-		URL:           service.url(fmt.Sprintf("orders/%v", order.ID)),
+		Url:           service.url(fmt.Sprintf("orders/%v", order.Id)),
 		BodyModel:     order,
 		ResponseModel: &updatedOrder,
 	}
