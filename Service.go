@@ -83,19 +83,19 @@ func (service *Service) url(path string) string {
 	return fmt.Sprintf("%s/%s/%s", service.host, apiPath, path)
 }
 
-func (service *Service) APIName() string {
+func (service *Service) ApiName() string {
 	return apiName
 }
 
-func (service *Service) APIKey() string {
+func (service *Service) ApiKey() string {
 	return service.token
 }
 
-func (service *Service) APICallCount() int64 {
+func (service *Service) ApiCallCount() int64 {
 	return service.httpService.RequestCount()
 }
 
-func (service *Service) APIReset() {
+func (service *Service) ApiReset() {
 	service.httpService.ResetRequestCount()
 }
 
