@@ -17,8 +17,8 @@ import (
 // Order stores Order from Service
 //
 type Order struct {
-	Id                 int                     `json:"id"`
-	ParentId           int                     `json:"parent_id"`
+	Id                 int64                   `json:"id"`
+	ParentId           int64                   `json:"parent_id"`
 	Number             string                  `json:"number"`
 	OrderKey           string                  `json:"order_key"`
 	CreatedVia         string                  `json:"created_via"`
@@ -38,7 +38,7 @@ type Order struct {
 	Total              go_types.Float64String  `json:"total"`
 	TotalTax           go_types.Float64String  `json:"total_tax"`
 	PricesIncludeTax   bool                    `json:"prices_include_tax"`
-	CustomerId         int                     `json:"customer_id"`
+	CustomerId         int64                   `json:"customer_id"`
 	CustomerIpAddress  string                  `json:"customer_ip_address"`
 	CustomerUserAgent  string                  `json:"customer_user_agent"`
 	CustomerNote       string                  `json:"customer_note"`
@@ -89,13 +89,13 @@ type OrderShipping struct {
 }
 
 type OrderMetaData struct {
-	Id    int    `json:"id"`
+	Id    int64  `json:"id"`
 	Key   string `json:"key"`
 	Value string `json:"value"`
 }
 
 type OrderMetaDataJSON struct {
-	Id    int             `json:"id"`
+	Id    int64           `json:"id"`
 	Key   string          `json:"key"`
 	Value json.RawMessage `json:"value"`
 }
@@ -115,11 +115,11 @@ func (p *OrderMetaData) UnmarshalJSON(data []byte) error {
 }
 
 type OrderLineItem struct {
-	Id          int             `json:"id"`
+	Id          int64           `json:"id"`
 	Name        string          `json:"name"`
-	ProductId   int             `json:"product_id"`
-	VariationId int             `json:"variation_id"`
-	Quantity    int             `json:"quantity"`
+	ProductId   int64           `json:"product_id"`
+	VariationId int64           `json:"variation_id"`
+	Quantity    int64           `json:"quantity"`
 	TaxClass    string          `json:"tax_class"`
 	Subtotal    string          `json:"subtotal"`
 	SubtotalTax string          `json:"subtotal_tax"`
@@ -132,7 +132,7 @@ type OrderLineItem struct {
 }
 
 type OrderTax struct {
-	Id               int             `json:"id"`
+	Id               int64           `json:"id"`
 	RateCode         string          `json:"rate_code"`
 	RateId           string          `json:"rate_id"`
 	Label            string          `json:"label"`
@@ -143,7 +143,7 @@ type OrderTax struct {
 }
 
 type OrderTaxLine struct {
-	Id               int             `json:"id"`
+	Id               int64           `json:"id"`
 	RateCode         string          `json:"rate_code"`
 	RateId           string          `json:"rate_id"`
 	Label            string          `json:"label"`
@@ -154,7 +154,7 @@ type OrderTaxLine struct {
 }
 
 type OrderShippingLine struct {
-	Id          int             `json:"id"`
+	Id          int64           `json:"id"`
 	MethodTitle string          `json:"method_title"`
 	MethodId    string          `json:"method_id"`
 	Total       string          `json:"total"`
@@ -164,7 +164,7 @@ type OrderShippingLine struct {
 }
 
 type OrderFeeLine struct {
-	Id        int             `json:"id"`
+	Id        int64           `json:"id"`
 	Name      string          `json:"name"`
 	TaxClass  string          `json:"tax_class"`
 	TaxStatus string          `json:"tax_status"`
@@ -175,7 +175,7 @@ type OrderFeeLine struct {
 }
 
 type OrderCouponLine struct {
-	Id          int             `json:"id"`
+	Id          int64           `json:"id"`
 	Code        string          `json:"code"`
 	Discount    string          `json:"discount"`
 	DiscountTax string          `json:"discount_tax"`
@@ -183,7 +183,7 @@ type OrderCouponLine struct {
 }
 
 type OrderRefund struct {
-	Id     int    `json:"id"`
+	Id     int64  `json:"id"`
 	Reason string `json:"reason"`
 	Total  string `json:"total"`
 }
