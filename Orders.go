@@ -115,71 +115,71 @@ func (p *OrderMetaData) UnmarshalJSON(data []byte) error {
 }
 
 type OrderLineItem struct {
-	Id          int              `json:"id"`
-	Name        string           `json:"name"`
-	ProductId   int              `json:"product_id"`
-	VariationId int              `json:"variation_id"`
-	Quantity    int              `json:"quantity"`
-	TaxClass    string           `json:"tax_class"`
-	Subtotal    string           `json:"subtotal"`
-	SubtotalTax string           `json:"subtotal_tax"`
-	Total       string           `json:"total"`
-	TotalTax    string           `json:"total_tax"`
-	Taxes       []*OrderTax      `json:"taxes"`
-	MetaData    []*OrderMetaData `json:"meta_data"`
-	Sku         string           `json:"sku"`
-	Price       float64          `json:"price"`
+	Id          int             `json:"id"`
+	Name        string          `json:"name"`
+	ProductId   int             `json:"product_id"`
+	VariationId int             `json:"variation_id"`
+	Quantity    int             `json:"quantity"`
+	TaxClass    string          `json:"tax_class"`
+	Subtotal    string          `json:"subtotal"`
+	SubtotalTax string          `json:"subtotal_tax"`
+	Total       string          `json:"total"`
+	TotalTax    string          `json:"total_tax"`
+	Taxes       []OrderTax      `json:"taxes"`
+	MetaData    []OrderMetaData `json:"meta_data"`
+	Sku         string          `json:"sku"`
+	Price       float64         `json:"price"`
 }
 
 type OrderTax struct {
-	Id               int              `json:"id"`
-	RateCode         string           `json:"rate_code"`
-	RateId           string           `json:"rate_id"`
-	Label            string           `json:"label"`
-	Compound         bool             `json:"compound"`
-	TaxTotal         string           `json:"tax_total"`
-	ShippingTaxTotal string           `json:"shipping_tax_total"`
-	MetaData         []*OrderMetaData `json:"meta_data"`
+	Id               int             `json:"id"`
+	RateCode         string          `json:"rate_code"`
+	RateId           string          `json:"rate_id"`
+	Label            string          `json:"label"`
+	Compound         bool            `json:"compound"`
+	TaxTotal         string          `json:"tax_total"`
+	ShippingTaxTotal string          `json:"shipping_tax_total"`
+	MetaData         []OrderMetaData `json:"meta_data"`
 }
 
 type OrderTaxLine struct {
-	Id               int              `json:"id"`
-	RateCode         string           `json:"rate_code"`
-	RateId           string           `json:"rate_id"`
-	Label            string           `json:"label"`
-	Compound         bool             `json:"compound"`
-	TaxTotal         string           `json:"tax_total"`
-	ShippingTaxTotal string           `json:"shipping_tax_total"`
-	MetaData         []*OrderMetaData `json:"meta_data"`
+	Id               int             `json:"id"`
+	RateCode         string          `json:"rate_code"`
+	RateId           string          `json:"rate_id"`
+	Label            string          `json:"label"`
+	Compound         bool            `json:"compound"`
+	TaxTotal         string          `json:"tax_total"`
+	ShippingTaxTotal string          `json:"shipping_tax_total"`
+	MetaData         []OrderMetaData `json:"meta_data"`
 }
 
 type OrderShippingLine struct {
-	Id          int              `json:"id"`
-	MethodTitle string           `json:"method_title"`
-	MethodId    string           `json:"method_id"`
-	Total       string           `json:"total"`
-	TotalTax    string           `json:"total_tax"`
-	Taxes       []*OrderTax      `json:"taxes"`
-	MetaData    []*OrderMetaData `json:"meta_data"`
+	Id          int             `json:"id"`
+	MethodTitle string          `json:"method_title"`
+	MethodId    string          `json:"method_id"`
+	Total       string          `json:"total"`
+	TotalTax    string          `json:"total_tax"`
+	Taxes       []OrderTax      `json:"taxes"`
+	MetaData    []OrderMetaData `json:"meta_data"`
 }
 
 type OrderFeeLine struct {
-	Id        int              `json:"id"`
-	Name      string           `json:"name"`
-	TaxClass  string           `json:"tax_class"`
-	TaxStatus string           `json:"tax_status"`
-	Total     string           `json:"total"`
-	TotalTax  string           `json:"total_tax"`
-	Taxes     []*OrderTax      `json:"taxes"`
-	MetaData  []*OrderMetaData `json:"meta_data"`
+	Id        int             `json:"id"`
+	Name      string          `json:"name"`
+	TaxClass  string          `json:"tax_class"`
+	TaxStatus string          `json:"tax_status"`
+	Total     string          `json:"total"`
+	TotalTax  string          `json:"total_tax"`
+	Taxes     []OrderTax      `json:"taxes"`
+	MetaData  []OrderMetaData `json:"meta_data"`
 }
 
 type OrderCouponLine struct {
-	Id          int              `json:"id"`
-	Code        string           `json:"code"`
-	Discount    string           `json:"discount"`
-	DiscountTax string           `json:"discount_tax"`
-	MetaData    []*OrderMetaData `json:"meta_data"`
+	Id          int             `json:"id"`
+	Code        string          `json:"code"`
+	Discount    string          `json:"discount"`
+	DiscountTax string          `json:"discount_tax"`
+	MetaData    []OrderMetaData `json:"meta_data"`
 }
 
 type OrderRefund struct {
