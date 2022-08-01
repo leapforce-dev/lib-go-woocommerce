@@ -3,8 +3,8 @@ module github.com/leapforce-libraries/go_woocommerce
 go 1.18
 
 require (
-	github.com/leapforce-libraries/go_errortools v0.0.0-20211119145736-7b9b61c20618
-	github.com/leapforce-libraries/go_http v0.0.0-20220622124557-97ea18437e79
+	github.com/leapforce-libraries/go_errortools v0.0.0-20220629113324-7501886bb3c6
+	github.com/leapforce-libraries/go_http v0.0.0-20220701140656-a2c137f0e2ef
 	github.com/leapforce-libraries/go_types v0.0.0-20220220161618-e9b1045c3ef2
 )
 
@@ -14,7 +14,7 @@ require (
 	cloud.google.com/go/compute v1.6.1 // indirect
 	cloud.google.com/go/iam v0.3.0 // indirect
 	cloud.google.com/go/storage v1.22.1 // indirect
-	github.com/getsentry/sentry-go v0.9.0 // indirect
+	github.com/getsentry/sentry-go v0.13.0 // indirect
 	github.com/gofrs/uuid v4.2.0+incompatible // indirect
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
