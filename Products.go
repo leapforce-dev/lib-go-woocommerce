@@ -17,71 +17,71 @@ import (
 // Product stores Product from Service
 //
 type Product struct {
-	Id                int64                   `json:"id"`
-	Name              string                  `json:"name"`
-	Slug              string                  `json:"slug"`
-	Permalink         string                  `json:"permalink"`
-	DateCreated       w_types.DateTimeString  `json:"date_created"`
-	DateCreatedGmt    w_types.DateTimeString  `json:"date_created_gmt"`
-	DateModified      w_types.DateTimeString  `json:"date_modified"`
-	DateModifiedGmt   w_types.DateTimeString  `json:"date_modified_gmt"`
-	Type              string                  `json:"type"`
-	Status            string                  `json:"status"`
-	Featured          bool                    `json:"featured"`
-	CatalogVisibility string                  `json:"catalog_visibility"`
-	Description       string                  `json:"description"`
-	ShortDescription  string                  `json:"short_description"`
-	Sku               string                  `json:"sku"`
-	Price             *go_types.Float64String `json:"price"`
-	RegularPrice      *go_types.Float64String `json:"regular_price"`
-	SalePrice         *go_types.Float64String `json:"sale_price"`
-	DateOnSaleFrom    *w_types.DateTimeString `json:"date_on_sale_from"`
-	DateOnSaleFromGmt *w_types.DateTimeString `json:"date_on_sale_from_gmt"`
-	DateOnSaleTo      *w_types.DateTimeString `json:"date_on_sale_to"`
-	DateOnSaleToGmt   *w_types.DateTimeString `json:"date_on_sale_to_gmt"`
-	PriceHtml         string                  `json:"price_html"`
-	OnSale            bool                    `json:"on_sale"`
-	Purchasable       bool                    `json:"purchasable"`
-	TotalSales        int64                   `json:"total_sales"`
-	Virtual           bool                    `json:"virtual"`
-	Downloadable      bool                    `json:"downloadable"`
-	Downloads         json.RawMessage         `json:"downloads"`
-	DownloadLimit     int64                   `json:"download_limit"`
-	DownloadExpiry    int64                   `json:"download_expiry"`
-	ExternalUrl       string                  `json:"external_url"`
-	ButtonText        string                  `json:"button_text"`
-	TaxStatus         string                  `json:"tax_status"`
-	TaxClass          string                  `json:"tax_class"`
-	ManageStock       bool                    `json:"manage_stock"`
-	StockQuantity     *int64                  `json:"stock_quantity"`
-	StockStatus       string                  `json:"stock_status"`
-	Backorders        string                  `json:"backorders"`
-	BackordersAllowed bool                    `json:"backorders_allowed"`
-	Backordered       bool                    `json:"backordered"`
-	SoldIndividually  bool                    `json:"sold_individually"`
-	Weight            *go_types.Float64String `json:"weight"`
-	Dimensions        ProductDimensions       `json:"dimensions"`
-	ShippingRequired  bool                    `json:"shipping_required"`
-	ShippingTaxable   bool                    `json:"shipping_taxable"`
-	ShippingClass     string                  `json:"shipping_class"`
-	ShippingClassId   int64                   `json:"shipping_class_id"`
-	ReviewsAllowed    bool                    `json:"reviews_allowed"`
-	AverageRating     *go_types.Float64String `json:"average_rating"`
-	RatingCount       int64                   `json:"rating_count"`
-	RelatedIds        []int64                 `json:"related_ids"`
-	UpsellIds         []int64                 `json:"upsell_ids"`
-	CrossSellIds      []int64                 `json:"cross_sell_ids"`
-	ParentId          int64                   `json:"parent_id"`
-	PurchaseNote      string                  `json:"purchase_note"`
-	Categories        []ProductCategory       `json:"categories"`
-	Tags              []ProductTag            `json:"tags"`
-	Images            []ProductImage          `json:"images"`
-	Attributes        []ProductAttribute      `json:"attributes"`
-	DefaultAttributes []ProductAttribute      `json:"default_attributes"`
-	Variations        []int64                 `json:"variations"`
-	GroupedProducts   []int64                 `json:"grouped_products"`
-	MenuOrder         int64                   `json:"menu_order"`
-	MetaData          []ProductMetaData       `json:"meta_data"`
+	Id                *int64                  `json:"id,omitempty"`
+	Name              *string                 `json:"name,omitempty"`
+	Slug              *string                 `json:"slug,omitempty"`
+	Permalink         *string                 `json:"permalink,omitempty"`
+	DateCreated       *w_types.DateTimeString `json:"date_created,omitempty"`
+	DateCreatedGmt    *w_types.DateTimeString `json:"date_created_gmt,omitempty"`
+	DateModified      *w_types.DateTimeString `json:"date_modified,omitempty"`
+	DateModifiedGmt   *w_types.DateTimeString `json:"date_modified_gmt,omitempty"`
+	Type              *string                 `json:"type,omitempty"`
+	Status            *string                 `json:"status,omitempty"`
+	Featured          *bool                   `json:"featured,omitempty"`
+	CatalogVisibility *string                 `json:"catalog_visibility,omitempty"`
+	Description       *string                 `json:"description,omitempty"`
+	ShortDescription  *string                 `json:"short_description,omitempty"`
+	Sku               *string                 `json:"sku,omitempty"`
+	Price             *go_types.Float64String `json:"price,omitempty"`
+	RegularPrice      *go_types.Float64String `json:"regular_price,omitempty"`
+	SalePrice         *go_types.Float64String `json:"sale_price,omitempty"`
+	DateOnSaleFrom    *w_types.DateTimeString `json:"date_on_sale_from,omitempty"`
+	DateOnSaleFromGmt *w_types.DateTimeString `json:"date_on_sale_from_gmt,omitempty"`
+	DateOnSaleTo      *w_types.DateTimeString `json:"date_on_sale_to,omitempty"`
+	DateOnSaleToGmt   *w_types.DateTimeString `json:"date_on_sale_to_gmt,omitempty"`
+	PriceHtml         *string                 `json:"price_html,omitempty"`
+	OnSale            *bool                   `json:"on_sale,omitempty"`
+	Purchasable       *bool                   `json:"purchasable,omitempty"`
+	TotalSales        *int64                  `json:"total_sales,omitempty"`
+	Virtual           *bool                   `json:"virtual,omitempty"`
+	Downloadable      *bool                   `json:"downloadable,omitempty"`
+	Downloads         *json.RawMessage        `json:"downloads,omitempty"`
+	DownloadLimit     *int64                  `json:"download_limit,omitempty"`
+	DownloadExpiry    *int64                  `json:"download_expiry,omitempty"`
+	ExternalUrl       *string                 `json:"external_url,omitempty"`
+	ButtonText        *string                 `json:"button_text,omitempty"`
+	TaxStatus         *string                 `json:"tax_status,omitempty"`
+	TaxClass          *string                 `json:"tax_class,omitempty"`
+	ManageStock       *bool                   `json:"manage_stock,omitempty"`
+	StockQuantity     *int64                  `json:"stock_quantity,omitempty"`
+	StockStatus       *string                 `json:"stock_status,omitempty"`
+	Backorders        *string                 `json:"backorders,omitempty"`
+	BackordersAllowed *bool                   `json:"backorders_allowed,omitempty"`
+	Backordered       *bool                   `json:"backordered,omitempty"`
+	SoldIndividually  *bool                   `json:"sold_individually,omitempty"`
+	Weight            *go_types.Float64String `json:"weight,omitempty"`
+	Dimensions        *ProductDimensions      `json:"dimensions,omitempty"`
+	ShippingRequired  *bool                   `json:"shipping_required,omitempty"`
+	ShippingTaxable   *bool                   `json:"shipping_taxable,omitempty"`
+	ShippingClass     *string                 `json:"shipping_class,omitempty"`
+	ShippingClassId   *int64                  `json:"shipping_class_id,omitempty"`
+	ReviewsAllowed    *bool                   `json:"reviews_allowed,omitempty"`
+	AverageRating     *go_types.Float64String `json:"average_rating,omitempty"`
+	RatingCount       *int64                  `json:"rating_count,omitempty"`
+	RelatedIds        *[]int64                `json:"related_ids,omitempty"`
+	UpsellIds         *[]int64                `json:"upsell_ids,omitempty"`
+	CrossSellIds      *[]int64                `json:"cross_sell_ids,omitempty"`
+	ParentId          *int64                  `json:"parent_id,omitempty"`
+	PurchaseNote      *string                 `json:"purchase_note,omitempty"`
+	Categories        *[]ProductCategory      `json:"categories,omitempty"`
+	Tags              *[]ProductTag           `json:"tags,omitempty"`
+	Images            *[]ProductImage         `json:"images,omitempty"`
+	Attributes        *[]ProductAttribute     `json:"attributes,omitempty"`
+	DefaultAttributes *[]ProductAttribute     `json:"default_attributes,omitempty"`
+	Variations        *[]int64                `json:"variations,omitempty"`
+	GroupedProducts   *[]int64                `json:"grouped_products,omitempty"`
+	MenuOrder         *int64                  `json:"menu_order,omitempty"`
+	MetaData          *[]ProductMetaData      `json:"meta_data,omitempty"`
 }
 
 type ProductDimensions struct {
@@ -123,9 +123,9 @@ type ProductAttribute struct {
 }
 
 type ProductMetaData struct {
-	Id    int64  `json:"id"`
-	Key   string `json:"key"`
-	Value string `json:"value"`
+	Id    int64  `json:"id,omitempty"`
+	Key   string `json:"key,omitempty"`
+	Value string `json:"value,omitempty"`
 }
 
 type ProductMetaDataJSON struct {
@@ -143,7 +143,7 @@ func (p *ProductMetaData) UnmarshalJSON(data []byte) error {
 
 	p.Id = res.Id
 	p.Key = res.Key
-	p.Value = strings.Trim(string(res.Value), `"`)
+	p.Value = strings.Trim(string(res.Value), `,omitempty"`)
 
 	return nil
 }
@@ -330,37 +330,45 @@ func (service *Service) GetProducts(config *GetProductsConfig) (*[]Product, *err
 
 	page := 1
 	maxPage := page
-	if config.Page != nil {
-		page = int(*config.Page)
+	if config != nil {
+		if config.Page != nil {
+			page = int(*config.Page)
+		}
 	}
 
-	products := []Product{}
+	var products []Product
 
 	for page <= maxPage {
+		values.Set("per_page", fmt.Sprintf("%v", 100))
 		values.Set("page", fmt.Sprintf("%v", page))
 
 		path := fmt.Sprintf("%s?%s", endpoint, values.Encode())
 
-		_products := []Product{}
+		var products_ []Product
 
 		requestConfig := go_http.RequestConfig{
 			Method:        http.MethodGet,
 			Url:           service.url(path),
-			ResponseModel: &_products,
+			ResponseModel: &products_,
 		}
+		fmt.Println(requestConfig.Url)
 
 		_, response, e := service.httpRequest(&requestConfig)
 		if e != nil {
 			return nil, e
 		}
 
-		products = append(products, _products...)
+		products = append(products, products_...)
 
-		if config.Page == nil {
-			maxPage, e = TotalPages(response)
-			if e != nil {
-				return nil, e
+		if config != nil {
+			if config.Page != nil {
+				break
 			}
+		}
+
+		maxPage, e = TotalPages(response)
+		if e != nil {
+			return nil, e
 		}
 
 		page++
@@ -369,18 +377,21 @@ func (service *Service) GetProducts(config *GetProductsConfig) (*[]Product, *err
 	return &products, nil
 }
 
-// UpdateProduct updates all products
+// UpdateProduct updates a specific product
 //
 func (service *Service) UpdateProduct(product *Product) (*Product, *errortools.Error) {
 	if product == nil {
 		return nil, errortools.ErrorMessage("Product is a nil pointer")
+	}
+	if product.Id == nil {
+		return nil, errortools.ErrorMessage("ProductId is a nil pointer")
 	}
 
 	updatedProduct := Product{}
 
 	requestConfig := go_http.RequestConfig{
 		Method:        http.MethodPut,
-		Url:           service.url(fmt.Sprintf("products/%v", product.Id)),
+		Url:           service.url(fmt.Sprintf("products/%v", *product.Id)),
 		BodyModel:     product,
 		ResponseModel: &updatedProduct,
 	}
@@ -391,4 +402,47 @@ func (service *Service) UpdateProduct(product *Product) (*Product, *errortools.E
 	}
 
 	return &updatedProduct, nil
+}
+
+// CreateProduct creates a product
+//
+func (service *Service) CreateProduct(product *Product) (*Product, *errortools.Error) {
+	if product == nil {
+		return nil, errortools.ErrorMessage("Product is a nil pointer")
+	}
+
+	createdProduct := Product{}
+
+	requestConfig := go_http.RequestConfig{
+		Method:        http.MethodPost,
+		Url:           service.url("products"),
+		BodyModel:     product,
+		ResponseModel: &createdProduct,
+	}
+
+	_, _, e := service.httpRequest(&requestConfig)
+	if e != nil {
+		return nil, e
+	}
+
+	return &createdProduct, nil
+}
+
+// DeleteProduct deletes a product
+//
+func (service *Service) DeleteProduct(productId int64, force bool) *errortools.Error {
+	var values = url.Values{}
+	values.Set("force", fmt.Sprintf("%v", force))
+
+	requestConfig := go_http.RequestConfig{
+		Method: http.MethodDelete,
+		Url:    service.url(fmt.Sprintf("products/%v?%s", productId, values.Encode())),
+	}
+
+	_, _, e := service.httpRequest(&requestConfig)
+	if e != nil {
+		return e
+	}
+
+	return nil
 }
