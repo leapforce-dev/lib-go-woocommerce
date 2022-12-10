@@ -82,6 +82,7 @@ type Product struct {
 	GroupedProducts   *[]int64                `json:"grouped_products,omitempty"`
 	MenuOrder         *int64                  `json:"menu_order,omitempty"`
 	MetaData          *[]ProductMetaData      `json:"meta_data,omitempty"`
+	Brands            *[]ProductBrand         `json:"brands,omitempty"`
 }
 
 type ProductDimensions struct {
@@ -123,15 +124,21 @@ type ProductAttribute struct {
 }
 
 type ProductMetaData struct {
-	Id    int64  `json:"id,omitempty"`
-	Key   string `json:"key,omitempty"`
-	Value string `json:"value,omitempty"`
+	Id    int64  `json:"id"`
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }
 
 type ProductMetaDataJSON struct {
 	Id    int64           `json:"id"`
 	Key   string          `json:"key"`
 	Value json.RawMessage `json:"value"`
+}
+
+type ProductBrand struct {
+	Id   int64  `json:"id"`
+	Name string `json:"name"`
+	Slug string `json:"slug"`
 }
 
 func (p *ProductMetaData) UnmarshalJSON(data []byte) error {
