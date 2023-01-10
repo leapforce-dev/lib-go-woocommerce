@@ -135,12 +135,6 @@ type ProductMetaDataJSON struct {
 	Value json.RawMessage `json:"value"`
 }
 
-type ProductBrand struct {
-	Id   int64  `json:"id"`
-	Name string `json:"name"`
-	Slug string `json:"slug"`
-}
-
 func (p *ProductMetaData) UnmarshalJSON(data []byte) error {
 	var res ProductMetaDataJSON
 
@@ -349,16 +343,13 @@ func (service *Service) GetProducts(config *GetProductsConfig) (*[]Product, *err
 		values.Set("per_page", fmt.Sprintf("%v", 100))
 		values.Set("page", fmt.Sprintf("%v", page))
 
-		path := fmt.Sprintf("%s?%s", endpoint, values.Encode())
-
 		var products_ []Product
 
 		requestConfig := go_http.RequestConfig{
 			Method:        http.MethodGet,
-			Url:           service.url(path),
+			Url:           service.url(fmt.Sprintf("%s?%s", endpoint, values.Encode())),
 			ResponseModel: &products_,
 		}
-		fmt.Println(requestConfig.Url)
 
 		_, response, e := service.httpRequest(&requestConfig)
 		if e != nil {
@@ -400,6 +391,28 @@ func (service *Service) UpdateProduct(product *Product) (*Product, *errortools.E
 		Method:        http.MethodPut,
 		Url:           service.url(fmt.Sprintf("products/%v", *product.Id)),
 		BodyModel:     product,
+		ResponseModel: &updatedProduct,
+	}
+
+	_, _, e := service.httpRequest(&requestConfig)
+	if e != nil {
+		return nil, e
+	}
+
+	return &updatedProduct, nil
+}
+
+// UpdateProductBrands updates the brands of a specific product
+//
+func (service *Service) UpdateProductBrands(productId int64, brands []int64) (*Product, *errortools.Error) {
+	updatedProduct := Product{}
+
+	requestConfig := go_http.RequestConfig{
+		Method: http.MethodPut,
+		Url:    service.url(fmt.Sprintf("products/%v", productId)),
+		BodyModel: struct {
+			Brands []int64 `json:"brands"`
+		}{brands},
 		ResponseModel: &updatedProduct,
 	}
 
