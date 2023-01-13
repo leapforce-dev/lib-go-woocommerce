@@ -233,6 +233,8 @@ type GetOrdersConfig struct {
 	Search           *string
 	After            *time.Time
 	Before           *time.Time
+	ModifiedAfter    *time.Time
+	ModifiedBefore   *time.Time
 	Exclude          *[]uint
 	Include          *[]uint
 	Offset           *uint
@@ -267,6 +269,12 @@ func (service *Service) GetOrders(config *GetOrdersConfig) (*[]Order, *errortool
 		}
 		if config.Before != nil {
 			values.Set("before", config.Before.Format(DateFormat))
+		}
+		if config.ModifiedAfter != nil {
+			values.Set("modified_after", config.ModifiedAfter.Format(DateFormat))
+		}
+		if config.ModifiedBefore != nil {
+			values.Set("modified_before", config.ModifiedBefore.Format(DateFormat))
 		}
 		if config.Exclude != nil {
 			values.Set("exclude", UIntArrayToString(*config.Exclude))
@@ -309,14 +317,14 @@ func (service *Service) GetOrders(config *GetOrdersConfig) (*[]Order, *errortool
 		page = int(*config.Page)
 	}
 
-	orders := []Order{}
+	var orders []Order
 
 	for page <= maxPage {
 		values.Set("page", fmt.Sprintf("%v", page))
 
 		path := fmt.Sprintf("%s?%s", endpoint, values.Encode())
 
-		_orders := []Order{}
+		var _orders []Order
 
 		requestConfig := go_http.RequestConfig{
 			Method:        http.MethodGet,
