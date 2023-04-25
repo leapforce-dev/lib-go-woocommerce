@@ -15,7 +15,6 @@ import (
 )
 
 // Product stores Product from Service
-//
 type Product struct {
 	Id                *int64                  `json:"id,omitempty"`
 	Name              *string                 `json:"name,omitempty"`
@@ -42,7 +41,7 @@ type Product struct {
 	PriceHtml         *string                 `json:"price_html,omitempty"`
 	OnSale            *bool                   `json:"on_sale,omitempty"`
 	Purchasable       *bool                   `json:"purchasable,omitempty"`
-	TotalSales        *int64                  `json:"total_sales,omitempty"`
+	TotalSales        *go_types.Int64String   `json:"total_sales,omitempty"`
 	Virtual           *bool                   `json:"virtual,omitempty"`
 	Downloadable      *bool                   `json:"downloadable,omitempty"`
 	Downloads         *json.RawMessage        `json:"downloads,omitempty"`
@@ -53,7 +52,7 @@ type Product struct {
 	TaxStatus         *string                 `json:"tax_status,omitempty"`
 	TaxClass          *string                 `json:"tax_class,omitempty"`
 	ManageStock       *bool                   `json:"manage_stock,omitempty"`
-	StockQuantity     *int64                  `json:"stock_quantity,omitempty"`
+	StockQuantity     *go_types.Int64String   `json:"stock_quantity,omitempty"`
 	StockStatus       *string                 `json:"stock_status,omitempty"`
 	Backorders        *string                 `json:"backorders,omitempty"`
 	BackordersAllowed *bool                   `json:"backorders_allowed,omitempty"`
@@ -240,7 +239,6 @@ type GetProductsConfig struct {
 }
 
 // GetProducts returns all products
-//
 func (service *Service) GetProducts(config *GetProductsConfig) (*[]Product, *errortools.Error) {
 	values := url.Values{}
 	endpoint := "products"
@@ -376,7 +374,6 @@ func (service *Service) GetProducts(config *GetProductsConfig) (*[]Product, *err
 }
 
 // UpdateProduct updates a specific product
-//
 func (service *Service) UpdateProduct(product *Product) (*Product, *errortools.Error) {
 	if product == nil {
 		return nil, errortools.ErrorMessage("Product is a nil pointer")
@@ -403,7 +400,6 @@ func (service *Service) UpdateProduct(product *Product) (*Product, *errortools.E
 }
 
 // UpdateProductBrands updates the brands of a specific product
-//
 func (service *Service) UpdateProductBrands(productId int64, brands []int64) (*Product, *errortools.Error) {
 	updatedProduct := Product{}
 
@@ -425,7 +421,6 @@ func (service *Service) UpdateProductBrands(productId int64, brands []int64) (*P
 }
 
 // CreateProduct creates a product
-//
 func (service *Service) CreateProduct(product *Product) (*Product, *errortools.Error) {
 	if product == nil {
 		return nil, errortools.ErrorMessage("Product is a nil pointer")
@@ -449,7 +444,6 @@ func (service *Service) CreateProduct(product *Product) (*Product, *errortools.E
 }
 
 // DeleteProduct deletes a product
-//
 func (service *Service) DeleteProduct(productId int64, force bool) *errortools.Error {
 	var values = url.Values{}
 	values.Set("force", fmt.Sprintf("%v", force))
