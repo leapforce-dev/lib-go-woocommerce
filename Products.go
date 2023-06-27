@@ -123,9 +123,9 @@ type ProductAttribute struct {
 }
 
 type ProductMetaData struct {
-	Id    int64  `json:"id"`
-	Key   string `json:"key"`
-	Value string `json:"value"`
+	Id    int64       `json:"id"`
+	Key   string      `json:"key"`
+	Value interface{} `json:"value"`
 }
 
 type ProductMetaDataJSON struct {
