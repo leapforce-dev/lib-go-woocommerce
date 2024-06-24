@@ -134,6 +134,10 @@ type ProductMetaDataJSON struct {
 	Value json.RawMessage `json:"value"`
 }
 
+type BatchUpdateProductsInput struct {
+	Update []Product
+}
+
 func (p *ProductMetaData) UnmarshalJSON(data []byte) error {
 	var res ProductMetaDataJSON
 
@@ -397,6 +401,39 @@ func (service *Service) UpdateProduct(product *Product) (*Product, *errortools.E
 	}
 
 	return &updatedProduct, nil
+}
+
+// BatchUpdateProducts updates multiple products
+func (service *Service) BatchUpdateProducts(products []Product) *errortools.Error {
+	if products == nil {
+		return errortools.ErrorMessage("Products is a nil pointer")
+	}
+
+	if len(products) == 0 {
+		return nil
+	}
+
+	if len(products) > 100 {
+		return errortools.ErrorMessage("Maximum 100 products can be updated at once")
+	}
+
+	batchUpdateProductsInput := BatchUpdateProductsInput{
+		Update: products,
+	}
+
+	updatedProducts := []Product{}
+	requestConfig := go_http.RequestConfig{
+		Method:        http.MethodPut,
+		Url:           service.url("products/batch"),
+		BodyModel:     batchUpdateProductsInput,
+		ResponseModel: &updatedProducts,
+	}
+
+	_, _, e := service.httpRequest(&requestConfig)
+	if e != nil {
+		return e
+	}
+	return nil
 }
 
 // UpdateProductBrands updates the brands of a specific product
