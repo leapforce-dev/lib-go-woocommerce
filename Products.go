@@ -134,8 +134,16 @@ type ProductMetaDataJSON struct {
 	Value json.RawMessage `json:"value"`
 }
 
-type BatchUpdateProductsInput struct {
-	Update []Product
+type BatchProductsInput struct {
+	Create *[]Product `json:"create,omitempty"`
+	Update *[]Product `json:"update,omitempty"`
+	Delete *[]int64   `json:"delete,omitempty"`
+}
+
+type BatchProductsResponse struct {
+	Create *[]Product `json:"create"`
+	Update *[]Product `json:"update"`
+	Delete *[]Product `json:"delete"`
 }
 
 func (p *ProductMetaData) UnmarshalJSON(data []byte) error {
@@ -417,16 +425,16 @@ func (service *Service) BatchUpdateProducts(products []Product) *errortools.Erro
 		return errortools.ErrorMessage("Maximum 100 products can be updated at once")
 	}
 
-	batchUpdateProductsInput := BatchUpdateProductsInput{
-		Update: products,
+	batchProductsInput := BatchProductsInput{
+		Update: &products,
 	}
 
-	updatedProducts := []Product{}
+	response := []BatchProductsResponse{}
 	requestConfig := go_http.RequestConfig{
 		Method:        http.MethodPut,
 		Url:           service.url("products/batch"),
-		BodyModel:     batchUpdateProductsInput,
-		ResponseModel: &updatedProducts,
+		BodyModel:     batchProductsInput,
+		ResponseModel: &response,
 	}
 
 	_, _, e := service.httpRequest(&requestConfig)
