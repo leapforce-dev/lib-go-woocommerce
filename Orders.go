@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"strings"
 	"time"
 
 	errortools "github.com/leapforce-libraries/go_errortools"
@@ -15,7 +14,6 @@ import (
 )
 
 // Order stores Order from Service
-//
 type Order struct {
 	Id                 int64                   `json:"id"`
 	ParentId           int64                   `json:"parent_id"`
@@ -89,29 +87,31 @@ type OrderShipping struct {
 }
 
 type OrderMetaData struct {
-	Id    int64  `json:"id"`
-	Key   string `json:"key"`
-	Value string `json:"value"`
-}
-
-type OrderMetaDataJSON struct {
 	Id    int64           `json:"id"`
 	Key   string          `json:"key"`
 	Value json.RawMessage `json:"value"`
 }
 
-func (p *OrderMetaData) UnmarshalJSON(data []byte) error {
-	var res OrderMetaDataJSON
+func (o OrderMetaData) GetValueString() (string, error) {
+	var s string
 
-	if err := json.Unmarshal(data, &res); err != nil {
-		return err
+	err := json.Unmarshal(o.Value, &s)
+	if err != nil {
+		return "", err
 	}
 
-	p.Id = res.Id
-	p.Key = res.Key
-	p.Value = strings.Trim(string(res.Value), `"`)
+	return s, nil
+}
 
-	return nil
+func (o OrderMetaData) GetValueMap() (map[string]string, error) {
+	m := make(map[string]string)
+
+	err := json.Unmarshal(o.Value, &m)
+	if err != nil {
+		return m, err
+	}
+
+	return m, nil
 }
 
 type OrderLineItem struct {
@@ -249,7 +249,6 @@ type GetOrdersConfig struct {
 }
 
 // GetOrders returns all orders
-//
 func (service *Service) GetOrders(config *GetOrdersConfig) (*[]Order, *errortools.Error) {
 	values := url.Values{}
 	endpoint := "orders"
@@ -353,7 +352,6 @@ func (service *Service) GetOrders(config *GetOrdersConfig) (*[]Order, *errortool
 }
 
 // UpdateOrder updates all orders
-//
 func (service *Service) UpdateOrder(order *Order) (*Order, *errortools.Error) {
 	if order == nil {
 		return nil, errortools.ErrorMessage("Order is a nil pointer")
