@@ -111,6 +111,7 @@ type ProductImage struct {
 	Src             string                 `json:"src"`
 	Name            string                 `json:"name"`
 	Alt             string                 `json:"alt"`
+	Position        int64                  `json:"position"`
 }
 
 type ProductAttribute struct {
